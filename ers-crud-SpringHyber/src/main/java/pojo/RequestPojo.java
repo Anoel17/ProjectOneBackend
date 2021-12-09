@@ -10,7 +10,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="request_info")
 public class RequestPojo {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="request_id")

@@ -76,7 +76,7 @@ public class RequestDaoImpl implements RequestDao {
 		
 		Transaction transaction = session.beginTransaction();
 		
-		Query query = session.createQuery("from request_info");
+		Query query = session.createQuery("from request_info", RequestPojo.class);
 		
 		List<RequestPojo> allReq= query.getResultList();
 		
