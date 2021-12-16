@@ -1,7 +1,8 @@
 package com.demo.ersSpring.controller;
 
 
-
+import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.ersSpring.exception.NullReturnException;
 import com.demo.ersSpring.pojo.RequestPojo;
 import com.demo.ersSpring.pojo.UserPojo;
 import com.demo.ersSpring.service.RequestService;
@@ -34,86 +36,114 @@ public class ErsController {
 	@Autowired
 	UserService USI;
 	
-	// http://localhost:8080/api/hello
-	@GetMapping("hello")
-	public String getHello() {
-		return "Hello";
-	}
+	//Exceptions ensure that if no results are obtained, the backend will return an empty list or dummy object instead of a null.
 	
-	//http://localhost8080/api/helloparam/{pid}
-	@GetMapping("helloparam/{pid}")
-	public String getHelloPathParam(@PathVariable("pid") Integer processId) {
-		return "" + processId;
-	}
-	
+
 	// http://localhost:8080/api/request
 	@GetMapping("request")
-	public List<RequestPojo> getAllRequests() {
-		return RSI.getAllRequests();
+	public List<RequestPojo> getAllRequests(){
+		try {
+		List<RequestPojo> requestList = RSI.getAllRequests();
+		return requestList;
+		} catch (NullReturnException nre) {
+			return new LinkedList<RequestPojo>();
+		}
 	}
 	
-			//fetch user's requests
-			// http://localhost:8080/api/request/{uid}
-	@GetMapping("api/request/{uid}")
+			
+	@GetMapping("request/{uid}")
 	public List<RequestPojo> getRequestsForuser(@PathVariable("uid") Integer userId) {
-		return RSI.getRequestsForUser(userId);
+		try {
+			return RSI.getRequestsForUser(userId);
+		} catch (NullReturnException e) {
+			return new LinkedList<RequestPojo>();
+		}
 	}
-			//delete a request
-	@DeleteMapping("api/request/{rid}")
+			
+	@DeleteMapping("request/{rid}")
 	public void deleteRequest(@PathVariable("rid") Integer requestId){
 		RSI.deleteRequest(requestId);
 	}
 			
-	// http://localhost4040/api/request
-	@PostMapping("api/request")
-	public void createRequest(@RequestBody RequestPojo requestPojo){
+	
+	@PostMapping("request")
+	public void createRequest(@Valid @RequestBody RequestPojo requestPojo){
 		RSI.createRequest(requestPojo);
 	}
 			
-			
-	@PutMapping("api/request")
-	public void updateRequest(@RequestBody RequestPojo requestPojo) {
+	
+	@PutMapping("request")
+	public void updateRequest(@Valid @RequestBody RequestPojo requestPojo) {
 		RSI.updateRequest(requestPojo);
 	}
 				
-			
-	@GetMapping("api/requestpending")
+		
+	@GetMapping("requestpending")
 	public List<RequestPojo> allPending(){
-		return RSI.getPendingRequests();
+		try {
+			return RSI.getPendingRequests();
+		} catch (NullReturnException e) {
+			return new LinkedList<RequestPojo>();
+		}
 	}
 			
-	@GetMapping("api/request/pending/{uid}")
+	
+	@GetMapping("request/pending/{uid}")
 	public List<RequestPojo> getUserPending(@PathVariable("uid")Integer userId){
-		return RSI.getUserPending(userId);
+		try {
+			return RSI.getUserPending(userId);
+		} catch (NullReturnException e) {
+			return new LinkedList<RequestPojo>();
+		}
 	}
 			
-	@GetMapping("api/requestresolved")
+	@GetMapping("requestresolved")
 	public List<RequestPojo> allResolved(){
-		return RSI.getResolvedRequests();
+		try {
+			return RSI.getResolvedRequests();
+		} catch (NullReturnException e) {
+			return new LinkedList<RequestPojo>();
+		}
 	}
 			
-	@GetMapping("api/request/resolved/{uid}")
+	@GetMapping("request/resolved/{uid}")
 	public List<RequestPojo> getUserResolved(@PathVariable("uid") Integer userId){
-		return RSI.getUserResolved(userId);
+		try {
+			return RSI.getUserResolved(userId);
+		} catch (NullReturnException e) {
+			return new LinkedList<RequestPojo>();
+		}
 	}
 			
-	@GetMapping("api/user/login/{email}/{password}")
+	@GetMapping("user/login/{email}/{password}")
 	public UserPojo logIn(@PathVariable("email") String email, @PathVariable("password") String password){
-		return USI.login(email, password);
+		try {
+			return USI.login(email, password);
+		} catch (NullReturnException e) {
+			return new UserPojo();
+		}
 	}
 			
-	@GetMapping("api/user/{userId}")
+	@GetMapping("user/{userId}")
 	public UserPojo getUserInfo(@PathVariable("userId") Integer userId){
-		return USI.getUserInfo(userId);
+		try {
+			return USI.getUserInfo(userId);
+		} catch (NullReturnException e) {
+			return new UserPojo();
+		}
 	}
 			
-	@GetMapping("api/user")
+	@GetMapping("user")
 	public List<UserPojo> getAllUsers(){
-		return USI.getAllUsers();
+		try {
+			return USI.getAllUsers();
+		} catch (NullReturnException e) {
+			return new LinkedList<UserPojo>();
+		}
 	}
 			
-	@PutMapping("api/user")
-	public void editUser(@RequestBody UserPojo userPojo){
+	@PutMapping("user")
+	public void editUser(@Valid @RequestBody UserPojo userPojo){
 		USI.editUser(userPojo);
 	}
 	

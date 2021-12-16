@@ -24,8 +24,8 @@ public class Request {
 	private String status="";
 	@Column(name="expense_type")
 	private String expenseType="";
-	@Column(name="image_url")
-	private String imageUrl="";
+	@Column(name="image_id")
+	private String imageId="";
 	
 	
 	public Request(int id,int uID, String date, int amount, String status) {
@@ -42,6 +42,14 @@ public class Request {
 		this.amount=amount;
 		this.status = status;
 	}
+	public Request(int id,int uID, String date, int amount, String status, String expenseType, String imageId) {
+		this.id=id;
+		this.userId = uID;
+		this.date = date;
+		this.amount=amount;
+		this.status = status;
+		this.imageId = imageId;
+	}
 	
 	public Request() {
 		
@@ -56,12 +64,12 @@ public class Request {
 		this.expenseType = expenseType;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImageId() {
+		return this.imageId;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImageId (String imageId) {
+		this.imageId= imageId;
 	}
 
 	public void setId(int id) {

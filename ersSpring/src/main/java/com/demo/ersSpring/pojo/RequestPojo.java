@@ -15,7 +15,7 @@ public class RequestPojo {
 	private int amount=0;
 	private String status="";
 	private String expenseType="";
-	private String imageUrl="";
+	private String imageId;
 	
 	public RequestPojo(int id,int uID, String date, int amount, String status) {
 		this.id=id;
@@ -30,6 +30,15 @@ public class RequestPojo {
 		this.date = date;
 		this.amount=amount;
 		this.status = status;
+	}
+	
+	public RequestPojo(int id,int uID, String date, int amount, String status, String expenseType, String imageId) {
+		this.id=id;
+		this.userId = uID;
+		this.date = date;
+		this.amount=amount;
+		this.status = status;
+		this.imageId = imageId;
 	}
 	
 	public RequestPojo() {
@@ -47,13 +56,13 @@ public class RequestPojo {
 		this.expenseType = expenseType;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImageId() {
+		return this.imageId;
 	}
 
-	@Value("https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg")
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	@Value("0")
+	public void setImageUrl(String imageId) {
+		this.imageId = imageId;
 	}
 
 	@Value("88")
