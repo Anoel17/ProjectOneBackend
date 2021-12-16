@@ -13,4 +13,5 @@ public interface UserService {
 	public List<UserPojo> getAllUsers() throws NullReturnException;
 	public UserPojo getUserInfo(int uID) throws NullReturnException;
 	public void editUser(UserPojo UPJ);
+	public List<UserPojo> getAllManagers() throws NullReturnException;
 }

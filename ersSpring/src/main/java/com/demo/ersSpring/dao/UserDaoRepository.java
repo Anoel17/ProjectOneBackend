@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -43,4 +44,24 @@ public interface UserDaoRepository extends JpaRepository<User,Integer> {
 		return uPJ;
 	}
 
+	public default List<User> getAllManagers() {
+			List<User> uPJ = new LinkedList<User>();
+			try {	
+				Class.forName("org.postgresql.Driver");
+					Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/projectone", "postgres", "Richie1120");
+					Statement stmt = conn.createStatement();
+				    String query = "select * from user_info where permission_level='manager';";
+				    ResultSet rs = stmt.executeQuery(query);
+				    while (rs.next()) {
+				    	uPJ.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),
+				    			rs.getString(7), rs.getString(8)));
+				    }
+				} catch (ClassNotFoundException e) {
+					return null;
+				} catch (SQLException e) {
+					return null;
+				}
+			return uPJ;
+	}
+	
 }

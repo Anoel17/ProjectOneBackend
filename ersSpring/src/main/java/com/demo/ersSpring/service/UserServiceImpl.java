@@ -69,6 +69,18 @@ public class UserServiceImpl implements UserService {
 		else throw new NullReturnException("no users could be found!");
 	}
 	
+	@Override
+	public List<UserPojo> getAllManagers() throws NullReturnException{
+		List<User> managersEntity = this.UDI.getAllManagers();
+		List<UserPojo> managersPojo = new ArrayList<UserPojo>();
+		
+		managersEntity.forEach((manager) -> {
+			managersPojo.add(new UserPojo(manager.getId(),manager.getUserType(), manager.getEmail(), manager.getPassword(), manager.getScreenName(),manager.getHomeState(), manager.getHomeTown(), manager.getAddress()));
+		});
+		if (!managersPojo.isEmpty())
+			return managersPojo;
+		else throw new NullReturnException("no managers found!");
+	}
 	
 	
 }
